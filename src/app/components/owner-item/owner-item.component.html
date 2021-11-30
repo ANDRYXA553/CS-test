@@ -1,0 +1,18 @@
+<div class="wrapper">
+
+  <div class="user-container" (click)="openedUserEditModal()">
+    <div class="user-property min-w-20">
+      <div class="user-property-text">{{owner.firstName}}</div>
+    </div>
+    <div class="user-property min-w-20">
+      <div class="user-property-text">{{owner.secondName}}</div>
+    </div>
+    <div class="user-property min-w-30">
+      <div class="user-property-text">{{owner.patronymic}}</div>
+    </div>
+    <div class="user-property">
+      <div class="user-property-text">{{owner.cars.length}}</div>
+    </div>
+
+  </div>
+</div>

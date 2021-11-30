@@ -1,0 +1,140 @@
+<div class="wrapper">
+
+    <div class="modal-title-box">
+        <div class="modal-title-text">
+            {{owner ? owner.firstName + ' ' + owner.secondName : 'Create new owner'}}
+        </div>
+        <div class="cross-box">
+            <div class="cross-item" (click)="closeModal()"></div>
+
+        </div>
+
+    </div>
+    <div class="form-container">
+        <form [formGroup]="createForm" (ngSubmit)="submitForm()">
+            <div class="input-box">
+                <label for="firstName" class="input-label">First name*</label>
+                <input formControlName="firstName" id="firstName" type="text"
+                       [ngClass]=" checkValidity('firstName')?'input-error':'input-default'">
+                <label for="firstName" class="input-label-error" *ngIf="checkValidity('firstName')">This input is
+                    required!</label>
+            </div>
+
+            <div class="input-box">
+
+                <label for="secondName" class="input-label">Second name*</label>
+                <input formControlName="secondName" id="secondName" type="text"
+                       [ngClass]=" checkValidity('secondName')?'input-error':'input-default'">
+                <label for="secondName" class="input-label-error" *ngIf="checkValidity('secondName')">This input is
+                    required!</label>
+            </div>
+
+            <div class="input-box">
+
+                <label for="patronymic" class="input-label">Patronymic*</label>
+                <input formControlName="patronymic" id="patronymic" type="text"
+                       [ngClass]=" checkValidity('patronymic')?'input-error':'input-default'">
+                <label for="patronymic" class="input-label-error" *ngIf="checkValidity('patronymic')">This input is
+                    required!</label>
+
+            </div>
+            <div class="create-button-box">
+                <div class="create-button m-0" (click)="addCar()">
+                    <div class="create-button-text">Add Car</div>
+                </div>
+            </div>
+            <!--      <div class="input-box">-->
+
+            <!--        <label class="input-label">Type*</label>-->
+            <!--        <div class="select-type">-->
+            <!--          <div class="input-default"-->
+            <!--               [ngClass]=" checkValidity('user_type')?'input-error':'input-default'"-->
+            <!--               (click)="this.isSelectOpened =!this.isSelectOpened "> {{selectedRole ? selectedRole : ''}}</div>-->
+            <!--          <div [ngClass]=" isSelectOpened? 'select-arrow-rotated':'select-arrow'"></div>-->
+            <!--          <div class="drop-down-options" *ngIf="isSelectOpened">-->
+            <!--            <div class="drop-down-item" (click)="selectRole(false)">Driver</div>-->
+            <!--            <div class="drop-down-item" (click)="selectRole(true)">Admin</div>-->
+            <!--          </div>-->
+            <!--        </div>-->
+
+            <!--        <label class="input-label-error" *ngIf="checkValidity('user_type')">This input is-->
+            <!--          required!</label>-->
+            <!--      </div>-->
+
+            <ng-container *ngIf="cars">
+                <div formArrayName="cars" *ngFor="let car of cars.controls; let i = index">
+                    <form [formGroupName]="i">
+                        <div class="input-box" style="display: flex; column-gap: 5px">
+                            <div>
+                                <label for="carNumber" class="input-label">Number</label>
+                                <input formControlName="carNumber" type="text" id="carNumber"
+                                       [ngClass]="checkCarValidity('carNumber',i)?'input-error':'input-default'">
+                                <label for="carNumber" class="input-label-error-password"
+                                       *ngIf="checkCarValidity('carNumber',i,'require')">This input is
+                                    required!</label>
+                                <label for="carNumber" class="input-label-error-password"
+                                       *ngIf="checkCarValidity('carNumber',i,'uniq')">This number already taken</label>
+                                <label for="carNumber" class="input-label-error-password"
+                                       *ngIf="checkCarValidity('carNumber',i,'pattern')">
+                                    <div>Incorrect number type!</div>
+                                    <div>EXAMPLE: AX1111HP</div>
+                                </label>
+                            </div>
+
+                            <div>
+                                <label for="producer" class="input-label">Producer</label>
+                                <input formControlName="producer" type="text" id="producer"
+                                       [ngClass]="checkCarValidity('producer',i)?'input-error':'input-default'">
+                                <label for="producer" class="input-label-error-password"
+                                       *ngIf="checkCarValidity('producer',i)">This input is
+                                    required!</label>
+                            </div>
+
+                            <div>
+                                <label for="model" class="input-label">Model</label>
+                                <input formControlName="model" type="text" id="model"
+                                       [ngClass]="checkCarValidity('model',i)?'input-error':'input-default'">
+                                <label for="model" class="input-label-error-password"
+                                       *ngIf="checkCarValidity('model',i)">This input is
+                                    required!</label>
+                            </div>
+
+                            <div>
+                                <label for="year" class="input-label">Year</label>
+                                <input formControlName="year" type="number" min="1990" [max]="currentYear" id="year"
+                                       [ngClass]="checkCarValidity('year',i)?'input-error':'input-default'">
+                                <label for="year" class="input-label-error-password d-flex-align-end"
+                                       *ngIf="checkCarValidity('year',i)">This input is
+                                    required!</label>
+                            </div>
+
+
+                            <div class="d-flex-align-end">
+                                <div class="create-button delete-btn-color m-0" (click)="deleteCar(i)">
+                                    <div class="create-button-text">Delete Car</div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </ng-container>
+
+
+            <div *ngIf="!owner" class="create-button-box-modal">
+                <div class="create-button mt-17 mb-0" (click)="submitForm()">
+                    <div class="create-button-text"> Create</div>
+                </div>
+            </div>
+            <div *ngIf="owner" class="update-button-box-modal">
+                <div class="create-button mt-17 mb-0 delete-btn-color" (click)="deleteUser()">
+                    <div class="create-button-text"> Delete</div>
+                </div>
+                <div class="create-button mt-17  mb-0" (click)="updateUser()">
+                    <div class="create-button-text"> Save</div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+</div>
