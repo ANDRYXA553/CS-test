@@ -95,7 +95,7 @@ export class OwnerFormComponent implements OnInit, OnDestroy {
             ],
             producer: ['', Validators.required],
             model: ['', Validators.required],
-            year: ['', Validators.required]
+            year: ['', Validators.compose([Validators.required, Validators.min(1990), Validators.max(this.currentYear)])]
         }, {validators: [this.checkUniqueCarNumber(car ? car : undefined)]}))
 
     }
@@ -110,7 +110,6 @@ export class OwnerFormComponent implements OnInit, OnDestroy {
 
     submitForm(): void {
         this.isFormSubmited = true;
-
         if (this.createForm.valid) {
             let owner = this.createForm.value as OwnerEntity;
             owner.id = Date.now();
@@ -164,12 +163,16 @@ export class OwnerFormComponent implements OnInit, OnDestroy {
             if (control === controlKey && errorType === 'require') {
                 return (controlName.controls[control].errors?.required && this.isFormSubmited);
             }
+            if (control === controlKey && errorType === 'min-max') {
+                return (controlName.controls.year.errors?.min || controlName.controls.year.errors?.max) && this.isFormSubmited
+            }
             if (control === controlKey && errorType === 'pattern') {
                 return controlName.controls.carNumber.errors?.pattern && this.isFormSubmited
             }
             if (control === controlKey && errorType === 'uniq') {
                 return controlName.controls.carNumber.errors?.carNumberNotUniq && this.isFormSubmited
             }
+
 
             if (control === controlKey) {
                 return (controlName.controls[control].errors && this.isFormSubmited);
@@ -239,6 +242,9 @@ export class OwnerFormComponent implements OnInit, OnDestroy {
         return new Date().getFullYear()
     }
 
+    get formValid(){
+        return this.createForm.valid
+    }
 
     ngOnDestroy() {
         if (this.carsNumbersSub) {

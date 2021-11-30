@@ -104,8 +104,11 @@
                                 <input formControlName="year" type="number" min="1990" [max]="currentYear" id="year"
                                        [ngClass]="checkCarValidity('year',i)?'input-error':'input-default'">
                                 <label for="year" class="input-label-error-password d-flex-align-end"
-                                       *ngIf="checkCarValidity('year',i)">This input is
+                                       *ngIf="checkCarValidity('year',i,'require')">This input is
                                     required!</label>
+                                <label for="year" class="input-label-error-password d-flex-align-end"
+                                       *ngIf="checkCarValidity('year',i,'min-max')">Only 1990 - current Year
+                                    available.</label>
                             </div>
 
 
@@ -121,7 +124,9 @@
 
 
             <div *ngIf="!owner" class="create-button-box-modal">
-                <div class="create-button mt-17 mb-0" (click)="submitForm()">
+                <div class="create-button mt-17 mb-0"
+                     [ngClass]="formValid? 'create-button-text': 'create-button-text gray-scale'"
+                     (click)="submitForm()">
                     <div class="create-button-text"> Create</div>
                 </div>
             </div>
@@ -129,7 +134,9 @@
                 <div class="create-button mt-17 mb-0 delete-btn-color" (click)="deleteUser()">
                     <div class="create-button-text"> Delete</div>
                 </div>
-                <div class="create-button mt-17  mb-0" (click)="updateUser()">
+                <div class="create-button mt-17  mb-0"
+                     [ngClass]="formValid? 'create-button-text': 'create-button-text gray-scale'"
+                     (click)="updateUser()">
                     <div class="create-button-text"> Save</div>
                 </div>
             </div>
