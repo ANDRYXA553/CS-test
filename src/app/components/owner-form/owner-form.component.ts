@@ -161,21 +161,21 @@ export class OwnerFormComponent implements OnInit, OnDestroy {
         for (const controlKey in controlName.controls) {
 
             if (control === controlKey && errorType === 'require') {
-                return (controlName.controls[control].errors?.required && this.isFormSubmited);
+                return (controlName.controls[control].errors?.required && controlName.controls[control].touched);
             }
             if (control === controlKey && errorType === 'min-max') {
-                return (controlName.controls.year.errors?.min || controlName.controls.year.errors?.max) && this.isFormSubmited
+                return (controlName.controls.year.errors?.min || controlName.controls.year.errors?.max) && controlName.controls[control].touched
             }
             if (control === controlKey && errorType === 'pattern') {
-                return controlName.controls.carNumber.errors?.pattern && this.isFormSubmited
+                return controlName.controls.carNumber.errors?.pattern && controlName.controls[control].touched
             }
             if (control === controlKey && errorType === 'uniq') {
-                return controlName.controls.carNumber.errors?.carNumberNotUniq && this.isFormSubmited
+                return controlName.controls.carNumber.errors?.carNumberNotUniq && controlName.controls[control].touched
             }
 
 
             if (control === controlKey) {
-                return (controlName.controls[control].errors && this.isFormSubmited);
+                return (controlName.controls[control].errors && controlName.controls[control].touched);
             }
 
         }
@@ -188,16 +188,16 @@ export class OwnerFormComponent implements OnInit, OnDestroy {
         for (const controlKey in this.createForm.controls) {
 
             if (control === controlKey && errorType === 'require') {
-                return (this.createForm.controls[control].errors?.required && this.isFormSubmited);
+                return (this.createForm.controls[control].errors?.required && this.createForm.controls[control].touched);
             }
 
 
             if (control === controlKey && errorType === 'uniq') {
-                return this.createForm.controls.userName.errors?.carNumberNotUniq && this.isFormSubmited;
+                return this.createForm.controls.userName.errors?.carNumberNotUniq && this.createForm.controls[control].touched;
             }
 
             if (control === controlKey) {
-                return (this.createForm.controls[control].errors && this.isFormSubmited);
+                return (this.createForm.controls[control].errors && this.createForm.controls[control].touched);
             }
         }
     }
@@ -242,7 +242,7 @@ export class OwnerFormComponent implements OnInit, OnDestroy {
         return new Date().getFullYear()
     }
 
-    get formValid(){
+    get formValid() {
         return this.createForm.valid
     }
 

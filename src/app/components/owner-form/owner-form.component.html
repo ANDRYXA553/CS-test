@@ -125,7 +125,7 @@
 
             <div *ngIf="!owner" class="create-button-box-modal">
                 <div class="create-button mt-17 mb-0"
-                     [ngClass]="formValid? 'create-button-text': 'create-button-text gray-scale'"
+                     [ngClass]="formValid  ? 'create-button-text': 'create-button-text gray-scale'"
                      (click)="submitForm()">
                     <div class="create-button-text"> Create</div>
                 </div>
@@ -135,7 +135,7 @@
                     <div class="create-button-text"> Delete</div>
                 </div>
                 <div class="create-button mt-17  mb-0"
-                     [ngClass]="formValid? 'create-button-text': 'create-button-text gray-scale'"
+                     [ngClass]="formValid ? 'create-button-text': 'create-button-text gray-scale'"
                      (click)="updateUser()">
                     <div class="create-button-text"> Save</div>
                 </div>
